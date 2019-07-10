@@ -51,21 +51,12 @@ class Masuk extends Component {
             method: 'POST', 
             url: 'http://101.255.125.227:83/api/AddKambingMasuk', 
             headers: {Authorization: "Bearer " + token}, 
-            data: 
-              formData
-            // kode_kambing: this.props.data.data, 
-            // cukur: this.state.cukur,
-            // suntik_vaksin: this.state.suntik,
-            // obat_cacing: this.state.obat,
-            // berat: this.state.berat,
-            // photo: this.props.image.replace(/"([^"]+(?="))"/g, '$1'),
-            // user_id: 1
-            
+            data: formData
           })
           .then(res => {
             console.log(res, this.props, "GET")
             console.log(formData)
-            Alert.alert("Success", "Data saved succesfully", [{text: 'OK', onPress: () => Actions.popTo('Menu')}])
+            Alert.alert("Success", "Data saved succesfully", [{text: 'OK', onPress: () => Actions.popTo('_Menu')}])
           })
           .catch(res => {
             console.log(res.response, this.props, formData, "CATCH")
@@ -74,7 +65,7 @@ class Masuk extends Component {
           })
       } 
       catch (error) {
-        console.log("Error")
+        console.log("Error", error)
       }
     }
 
@@ -94,7 +85,8 @@ class Masuk extends Component {
                       <View style={styles.radioWrap}>
                         <Text style={styles.bodyText} >Cukur</Text>
                         <RadioForm
-                          labelStyle={{marginRight: 10,}}
+                          buttonSize={14}
+                          labelStyle={{marginRight: 8,}}
                           labelColor={'#2196f3'}
                           selectedLabelColor={'#2196f3'}
                           formHorizontal={true}
@@ -109,7 +101,8 @@ class Masuk extends Component {
                       <View style={styles.radioWrap}>
                       <Text style={styles.bodyText} >Suntik</Text>
                       <RadioForm
-                        labelStyle={{marginRight: 10,}}
+                        buttonSize={14}
+                        labelStyle={{marginRight: 8,}}
                         labelColor={'#2196f3'}
                         selectedLabelColor={'#2196f3'}
                         formHorizontal={true}
@@ -124,7 +117,8 @@ class Masuk extends Component {
                       <View style={styles.radioWrap}>
                       <Text style={styles.bodyText} >Pemberian Obat</Text>
                       <RadioForm
-                        labelStyle={{marginRight: 10,}}
+                        buttonSize={14}
+                        labelStyle={{marginRight: 8,}}
                         labelColor={'#2196f3'}
                         selectedLabelColor={'#2196f3'}
                         formHorizontal={true}

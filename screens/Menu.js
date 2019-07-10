@@ -35,7 +35,7 @@ class Menu extends Component {
     Actions.Scan({where: 'Keluar'})
   }
   goToAksidental = () => {
-    Actions.Aksidental()
+    Actions.Scan({where: 'Aksidental'})
   }
 
   render() {

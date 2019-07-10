@@ -3,12 +3,14 @@ import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } fro
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Masuk extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          
+          berat: '52 kg'
         }
     }
 
@@ -16,8 +18,41 @@ class Masuk extends Component {
       Actions.Kamera()
     }
 
-    doSimpan = () => {
-      console.log(this.state)
+    doSimpan = async () => {
+      try {
+        let token = await AsyncStorage.getItem('token');
+        const uri = this.props.image
+        const uriParts = uri.split('.');
+        const fileType = uriParts[uriParts.length - 1];
+        const formData = new FormData();
+          formData.append('photo', {
+            uri,
+            name: `photo.${fileType}`,
+            type: `image/${fileType}`,
+          });
+          formData.append('kode_kambing', this.props.data.data)
+          formData.append('berat', this.state.berat)
+          // formData.append('user_id', 1)
+          axios({ 
+            method: 'POST', 
+            url: 'http://101.255.125.227:83/api/AddKambingKeluar', 
+            headers: {Authorization: "Bearer " + token}, 
+            data: formData
+          })
+          .then(res => {
+            console.log(res, this.props, "GET")
+            console.log(formData)
+            Alert.alert("Success", "Data saved succesfully", [{text: 'OK', onPress: () => Actions.popTo('_Menu')}])
+          })
+          .catch(res => {
+            console.log(res.response, this.props, formData, "CATCH")
+            console.log(JSON.stringify(this.props.image))
+            Alert.alert("Alert !", "Invalid data")
+          })
+      } 
+      catch (error) {
+        console.log("Error", error)
+      }
     }
 
     render() {
@@ -35,7 +70,7 @@ class Masuk extends Component {
 
                       <View style={styles.radioWrap}>
                         <Text style={styles.bodyText} >Berat</Text>
-                        <Text style={styles.bodyText} >52kg</Text>
+                        <Text style={styles.bodyText} >{this.state.berat}</Text>
                       </View>
                     </View>
                      

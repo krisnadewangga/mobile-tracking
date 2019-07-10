@@ -34,7 +34,7 @@ class Kamera extends Component {
   
     takePicture = async() => {
       if (this.camera) {
-        const options = { quality: 0.5, base64: true };
+        const options = { quality: 0.1, base64: true };
         const data = await this.camera.takePictureAsync(options);
         console.log(data.uri);
         Actions.pop({ refresh: { image: data.uri, imageDetail: data } })

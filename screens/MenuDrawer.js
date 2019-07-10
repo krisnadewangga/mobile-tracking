@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Image } from 'react-native';
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class MenuDrawer extends Component {
 
@@ -24,10 +25,11 @@ class MenuDrawer extends Component {
     Actions.Scan({where: 'Keluar'})
   }
   goToAksidental = () => {
-    Actions.Aksidental()
+    Actions.Scan({where: 'Aksidental'})
   }
   doLogout = () => {
     Actions.popTo('SignIn')
+    AsyncStorage.removeItem('token')
   }
 
   render() {

@@ -3,8 +3,8 @@ import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } fro
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-
-
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Masuk extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class Masuk extends Component {
             {label: 'Lain-lain'},
           ],
           kondisi: 'Sakit',
+          deskripsi: 'Ini deskripsi'
         }
     }
 
@@ -24,9 +25,42 @@ class Masuk extends Component {
       Actions.Kamera()
     }
 
-    doSimpan = () => {
-      console.log(this.state)
-      Alert.alert("Hiya", "Ayok kembali", [{text: 'OK', onPress: () => Actions.popTo('MenuDrawer')}])
+    doSimpan = async () => {
+      try {
+        let token = await AsyncStorage.getItem('token');
+        const uri = this.props.image
+        const uriParts = uri.split('.');
+        const fileType = uriParts[uriParts.length - 1];
+        const formData = new FormData();
+          formData.append('photo', {
+            uri,
+            name: `photo.${fileType}`,
+            type: `image/${fileType}`,
+          });
+          formData.append('kode_kambing', this.props.data.data)
+          formData.append('keterangan', this.state.kondisi)
+          formData.append('deskripsi', this.state.deskripsi)
+          // formData.append('user_id', 1)
+          axios({ 
+            method: 'POST', 
+            url: 'http://101.255.125.227:83/api/AddAksidental', 
+            headers: {Authorization: "Bearer " + token}, 
+            data: formData
+          })
+          .then(res => {
+            console.log(res, this.props, "GET")
+            console.log(formData)
+            Alert.alert("Success", "Data saved succesfully", [{text: 'OK', onPress: () => Actions.popTo('_Menu')}])
+          })
+          .catch(res => {
+            console.log(res.response, this.props, formData, "CATCH")
+            console.log(JSON.stringify(this.props.image))
+            Alert.alert("Alert !", "Invalid data")
+          })
+      } 
+      catch (error) {
+        console.log("Error", error)
+      }
     }
 
     render() {
@@ -35,7 +69,7 @@ class Masuk extends Component {
                 <View style={styles.headerContainer}>
                     <Text style={{position: 'absolute'}}>Tanggal</Text>
                     <View style={styles.headerText}>
-                      <TextInput style={styles.dateText} >2019.01.01.001</TextInput>
+                      <TextInput style={styles.dateText} >{this.props.data.data}</TextInput>
                     </View>
                 </View>
                 <View style={styles.bodyContainer}>
@@ -43,18 +77,21 @@ class Masuk extends Component {
 
                     <View style={styles.bodyContent}>
                         <RadioForm
-                          labelStyle={{marginRight: 10,}}
+                          buttonSize={14}
+                          labelStyle={{marginRight: 8}}
                           formHorizontal={true}
+                          labelColor={'#2196f3'}
+                          selectedLabelColor={'#2196f3'}
                           // buttonColor={'#2196f3'}
                           animation={true}
                           radio_props={this.state.radio_props}
-                          initial={3}
+                          initial={0}
                           onPress={(label) => {this.setState({kondisi:label})}}
                         />
                     </View>
                      
                     <View style={styles.commentContent}>
-                      <TextInput style={styles.commentText} placeholder="Catatan" multiline={true} />
+                      <TextInput style={styles.commentText} placeholder="Catatan" multiline={true} onChangeText={deskripsi => this.setState({ deskripsi })} />
                     </View>
                     <View style={styles.picContent}>
                       <TouchableOpacity onPress={this.goToKamera}>

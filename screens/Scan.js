@@ -34,6 +34,8 @@ class Scan extends Component {
         Actions.Masuk({data: e})
       } else if (this.props.where === 'Keluar'){
         Actions.Keluar({data: e})
+      } else if (this.props.where === 'Aksidental'){
+        Actions.Aksidental({data: e})
       }
     }
 
