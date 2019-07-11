@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
 

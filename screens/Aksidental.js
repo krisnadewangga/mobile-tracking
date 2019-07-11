@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -11,10 +11,10 @@ class Masuk extends Component {
         super(props);
         this.state = {
           radio_props: [
-            {label: 'Sakit'},
-            {label: 'Mati'},
-            {label: 'Hilang'},
-            {label: 'Lain-lain'},
+            {label: 'Sakit', value: 'Sakit'},
+            {label: 'Mati', value: 'Mati'},
+            {label: 'Hilang', value: 'Hilang'},
+            {label: 'Lain-lain', value: 'Lain-lain'},
           ],
           kondisi: 'Sakit',
           deskripsi: 'Ini deskripsi'
@@ -86,7 +86,7 @@ class Masuk extends Component {
                           animation={true}
                           radio_props={this.state.radio_props}
                           initial={0}
-                          onPress={(label) => {this.setState({kondisi:label})}}
+                          onPress={(value) => {this.setState({kondisi:value})}}
                         />
                     </View>
                      
