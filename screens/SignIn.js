@@ -62,16 +62,20 @@ class SignIn extends Component {
                 onChangeText={username => this.setState({ username })}
                 errorMessage=''
                 underlineColorAndroid='rgba(10,0,0,0)'
+                onSubmitEditing={() => this.passwordInput.focus()}
+                blurOnSubmit={false}
               />
 
               <TextInput
+                ref={(input) => this.passwordInput = input}
                 style={styles.textInput}
                 placeholder='Password'
                 onChangeText={password => this.setState({ password })}
                 secureTextEntry={true}
                 errorMessage=''
                 returnKeyType='go'
-                // onSubmitEditing={this.getUserData}
+                onSubmitEditing={this.goToMenu}
+                blurOnSubmit={false}
                 underlineColorAndroid='rgba(10,0,0,0.0)'
               />
 

@@ -14,10 +14,6 @@ class MenuDrawer extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log("HIYAAAA", this.props)
-  }
-
   goToMasuk = () => {
     Actions.Scan({where: 'Masuk'})
   }
@@ -28,7 +24,7 @@ class MenuDrawer extends Component {
     Actions.Scan({where: 'Aksidental'})
   }
   doLogout = () => {
-    Actions.popTo('SignIn')
+    Actions.SignIn()
     AsyncStorage.removeItem('token')
   }
 
