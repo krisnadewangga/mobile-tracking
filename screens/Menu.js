@@ -14,20 +14,6 @@ class Menu extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log("HIYAAAA", this)
-    this.doSimpan()
-  }
-
-  doSimpan = async () => {
-    try {
-      let token = await AsyncStorage.getItem('token');
-      console.log(token)
-    } catch (error) {
-      console.log("Error")
-    }
-  }
-
   goToMasuk = () => {
     Actions.Scan({where: 'Masuk'})
   }

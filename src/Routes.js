@@ -14,8 +14,8 @@ import MenuDrawer from '../screens/MenuDrawer.js'
 const Routes = () => (
    <Router>
       <Scene key = "root">
-         <Scene key="SignIn" component={SignIn} hideNavBar={true} initial={true} type="reset"/>
-         <Scene key="MenuDrawer" drawer={true} contentComponent={MenuDrawer} hideNavBar={true} >
+         <Scene key="SignIn" component={SignIn} hideNavBar={true} initial={true} type="replace" />
+         <Scene key="MenuDrawer" drawer={true} contentComponent={MenuDrawer} hideNavBar={true} type="replace" >
             <Scene key="Menu" component={Menu} title="Monitoring" navigationBarStyle={styles.navigationBarTitleStyle} navBarButtonColor='white' initial={true} />
          </Scene>
          <Scene key="Scan" component={Scan} hideNavBar={true}/>
