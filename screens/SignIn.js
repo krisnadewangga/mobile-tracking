@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
@@ -50,15 +50,18 @@ class SignIn extends Component {
         <View style={styles.container}>
 
           <View style={styles.headerContainer}>
-            <Text style={styles.header}>YukTernak!</Text>
+            {/* <Text style={styles.header}>YukTernak!</Text> */}
+            <Image source={require('../logo/sign.png')} style={styles.gambar}/>
           </View>
 
           <View style={styles.bodyContainer}>
             <View style={styles.formSignIn}>
 
-              <TextInput
-                style={styles.textInput}
-                placeholder='Username'
+              <Text>Silahkan masukkan</Text>
+              <Text><Text style={{fontWeight:'bold'}}>User</Text> dan <Text style={{fontWeight:'bold'}}>Password</Text> kamu</Text>
+
+              <Input
+                placeholder='Masukkan Username'
                 onChangeText={username => this.setState({ username })}
                 errorMessage=''
                 underlineColorAndroid='rgba(10,0,0,0)'
@@ -66,10 +69,9 @@ class SignIn extends Component {
                 blurOnSubmit={false}
               />
 
-              <TextInput
+              <Input
                 ref={(input) => this.passwordInput = input}
-                style={styles.textInput}
-                placeholder='Password'
+                placeholder='Masukkan Password'
                 onChangeText={password => this.setState({ password })}
                 secureTextEntry={true}
                 errorMessage=''
@@ -78,14 +80,14 @@ class SignIn extends Component {
                 blurOnSubmit={false}
                 underlineColorAndroid='rgba(10,0,0,0.0)'
               />
-
-              <Button 
-                title="Continue"
-                navigation={this.props.navigation}
-                onPress={this.goToMenu}
-                buttonStyle={{marginTop: 80}}
-              />
             
+            <Text style={styles.last}>Lupa User ID atau Password, hubungi Admin</Text>
+            </View>
+            
+            <View style={styles.buttonView}>
+              <TouchableOpacity onPress={this.goToMenu}>
+                <Text style={styles.button}>Lanjut</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -103,8 +105,15 @@ const styles = StyleSheet.create({
     width:'100%',
   },
   headerContainer: {
-    flex: 2,
+    flex: 3,
     backgroundColor: '#42A5F5',
+  },
+  gambar: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: undefined,
+    height: undefined
+    // resizeMode: 'cover'
   },
   header: {
     color: '#ffffff',
@@ -116,15 +125,27 @@ const styles = StyleSheet.create({
     flex: 4,
   },
   formSignIn: {
-    paddingVertical: 85,
-    paddingHorizontal: 48,
+    paddingVertical: '10%',
+    paddingHorizontal: '5%',
   },
-  textInput: {
-    color: '#42A5F5',
-    borderRadius: 25,
+  buttonView: {
+    position:'absolute',
+    bottom:0,
+    alignSelf:'flex-end', 
+    width:'100%',
+    height: 61,
+    backgroundColor: '#048573',
+    justifyContent: 'space-between',
+  },
+  button: {
+    fontSize: 20,
+    color: '#ffffff',
+    paddingTop: 15,
     paddingLeft: 20,
-    marginVertical: 10,
-    borderColor: '#42A5F5',
-    borderWidth: 1,
-  }
+  },
+  last: {
+    position:'absolute',
+    bottom:0,
+    paddingLeft: 20,
+  },
 });

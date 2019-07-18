@@ -5,6 +5,8 @@ import { Actions } from 'react-native-router-flux';
 import RadioForm from 'react-native-simple-radio-button';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCamera, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 class Masuk extends Component {
     constructor(props) {
@@ -17,7 +19,11 @@ class Masuk extends Component {
             {label: 'Lain-lain', value: 'Lain-lain'},
           ],
           kondisi: 'Sakit',
-          deskripsi: 'Ini deskripsi'
+          deskripsi: 'Ini deskripsi',
+          sakit: true,
+          mati: false,
+          hilang: false,
+          lain: false
         }
     }
 
@@ -67,45 +73,60 @@ class Masuk extends Component {
         return(
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Text style={{position: 'absolute'}}>Tanggal</Text>
                     <View style={styles.headerText}>
-                      <TextInput style={styles.dateText} >{this.props.data.data}</TextInput>
+                      {/* <TextInput style={styles.dateText} >{this.props.data.data}</TextInput> */}
+                      <Text style={styles.dateText} >ID hewan kejadian <Text style={{fontWeight: 'bold'}}>aksidental :</Text></Text>
+                      <Text style={styles.dateText}><Text style={{fontWeight: 'bold'}}>{this.props.data.data}</Text></Text>
                     </View>
                 </View>
                 <View style={styles.bodyContainer}>
-                    <Text style={{position: 'absolute'}}>Body</Text>
-
-                    <View style={styles.bodyContent}>
-                        <RadioForm
-                          buttonSize={14}
-                          labelStyle={{marginRight: 8}}
-                          formHorizontal={true}
-                          labelColor={'#2196f3'}
-                          selectedLabelColor={'#2196f3'}
-                          // buttonColor={'#2196f3'}
-                          animation={true}
-                          radio_props={this.state.radio_props}
-                          initial={0}
-                          onPress={(value) => {this.setState({kondisi:value})}}
-                        />
-                    </View>
-                     
-                    <View style={styles.commentContent}>
-                      <TextInput style={styles.commentText} placeholder="Catatan" multiline={true} onChangeText={deskripsi => this.setState({ deskripsi })} />
-                    </View>
-                    <View style={styles.picContent}>
-                      <TouchableOpacity onPress={this.goToKamera}>
-                        <Image source={{uri: this.props.image}} style={styles.gambar}/>
+                  <View style={styles.bodyContent}>
+                  <Text style={styles.bodyText} >Apa yang terjadi pada hewan ternak ini?</Text>
+                    <View style={styles.contentWrap}>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={this.state.sakit ? styles.buttonPress : styles.button}
+                        onPress={() => this.setState({sakit: true, mati: false, hilang: false, lain: false, kondisi: 'Sakit'})}>
+                      <Text style={this.state.sakit ? styles.welcomePress : styles.welcome}>Sakit</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={this.state.mati ? styles.buttonPress : styles.button}
+                        onPress={() => this.setState({sakit: false, mati: true, hilang: false, lain: false, kondisi: 'Mati'})}>
+                      <Text style={this.state.mati ? styles.welcomePress : styles.welcome}>Mati</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={this.state.hilang ? styles.buttonPress : styles.button}
+                        onPress={() => this.setState({sakit: false, mati: false, hilang: true, lain: false, kondisi: 'Hilang'})}>
+                      <Text style={this.state.hilang ? styles.welcomePress : styles.welcome}>Hilang</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={this.state.lain ? styles.buttonPress : styles.button}
+                        onPress={() => this.setState({sakit: false, mati: false, hilang: false, lain: true, kondisi: 'Lain-lain'})}>
+                      <Text style={this.state.lain ? styles.welcomePress : styles.welcome}>Lain-lain</Text>
+                      </TouchableOpacity>
+                      </View>
+                  </View>
+                    
+                  <View style={styles.commentContent}>
+                    <Text style={{fontSize: 20, fontWeight: '400', color: '#000000'}}>Catatan</Text>
+                    <Input style={styles.commentText} placeholder="Masukkan catatan kamu" onChangeText={deskripsi => this.setState({ deskripsi })} />
+                  </View>
+                  <View style={styles.picContent}>
+                    <TouchableOpacity onPress={this.goToKamera}>
+                      <FontAwesomeIcon icon={ faCircle } color={'#D8D8D8'} size={100} style={styles.imageHolder1} />
+                      <FontAwesomeIcon icon={ faCamera } color={'#767676'} size={60} style={styles.imageHolder2} />
+                      <Image source={{uri: this.props.image}} style={styles.gambar}/>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.buttonView}>
+                      <TouchableOpacity onPress={this.doSimpan}>
+                        <Text style={styles.buttonSimpan}>Simpan</Text>
                       </TouchableOpacity>
                     </View>
-                    <View style={styles.buttonContent}>
-                    <Button 
-                      title="Simpan"
-                      buttonStyle={{marginHorizontal: 25, borderRadius: 0}}
-                      onPress={this.doSimpan}
-                    />
-                    </View>
-                </View>
+              </View>
             </View>
         )
     }
@@ -117,7 +138,7 @@ export default Masuk;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#90CAF9',
+    backgroundColor: '#ffffff',
     width:'100%',
   },
   headerContainer: {
@@ -129,15 +150,10 @@ const styles = StyleSheet.create({
     marginVertical: '7%',
   },
   dateText: {
-    color: '#42A5F5',
-    borderColor: '#42A5F5',
-    borderWidth: 0.5,
-    textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    color: '#000000'
   },
   commentText: {
-    color: '#42A5F5',
-    paddingLeft: 10,
     fontSize: 12,
     // height: '100%',
   },
@@ -145,20 +161,21 @@ const styles = StyleSheet.create({
     flex: 5,
   },
   bodyContent: {
-    marginTop: '15%',
-    margin: 25,
+    backgroundColor: '#ffffff',
+    marginHorizontal: 25,
   },
   commentContent: {
     flex: 1,
     backgroundColor: '#ffffff',
     marginHorizontal: 25,
-    marginBottom: '5%',
   },
   picContent: {
     flex: 2,
-    backgroundColor: '#ffffff',
+    borderColor: '#eeeeee',
+    borderWidth: 5,
+    borderRadius:20,
     marginHorizontal: 25,
-    marginBottom: 10,
+    marginBottom: 100,
   },
   gambar: {
     width: '100%',
@@ -169,15 +186,70 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bodyText: {
-    fontSize: 17,
-    color: "#42A5F5",
-    fontWeight: "600",
-    marginRight: 10,
+    fontSize: 24,
+    color: "#000000",
+    paddingVertical: 12,
     
   },
-  radioWrap: {
-    margin: 12,
+
+  
+
+  contentWrap: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  }
+  },  
+  welcome: {
+    fontSize: 16,
+    textAlign: "center",
+    margin: 10,
+    color: "#000000"
+  },
+  welcomePress: {
+      fontSize: 16,
+      textAlign: "center",
+      margin: 10,
+      color: "#ffffff"
+  },
+  button: {
+    borderColor: "#048573",
+    borderWidth: 1,
+    borderRadius: 20,
+    width: 85,
+  },
+  buttonPress: {
+    borderColor: "#048573",
+    backgroundColor: "#048573",
+    borderWidth: 1,
+    borderRadius: 20,
+    width: 85,
+  },
+  buttonView: {
+    position:'absolute',
+    bottom:0,
+    alignSelf:'flex-end', 
+    width:'100%',
+    height: 61,
+    backgroundColor: '#048573',
+    justifyContent: 'space-between',
+  },
+  buttonSimpan: {
+    fontSize: 20,
+    color: '#ffffff',
+    paddingTop: 15,
+    paddingLeft: 20,
+  },
+  imageHolder1: {
+    position: 'absolute', 
+    width: '100%',
+    height: '100%',
+    marginVertical: '7%',
+    alignSelf: 'center',
+  },
+  imageHolder2: {
+    position: 'absolute', 
+    width: '100%',
+    height: '100%',
+    marginVertical: '9%',
+    alignSelf: 'center',
+  },
 });

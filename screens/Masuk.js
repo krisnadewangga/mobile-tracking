@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, TouchableHighlight, Alert } from 'react-native';
 import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import RadioForm from 'react-native-simple-radio-button';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCamera, faCircle } from '@fortawesome/free-solid-svg-icons'
 
 class Masuk extends Component {
     constructor(props) {
@@ -14,10 +16,10 @@ class Masuk extends Component {
             {label: 'Tidak', value: "No" },
             {label: 'Ya', value: "Yes" }
           ],
-          cukur: 'Yes',
-          suntik: 'Yes',
-          obat: 'Yes',
-          berat: '52 kg'
+          berat: '52 kg',
+          cukur: false,
+          suntik: false,
+          obat: false,
         }
     }
 
@@ -73,64 +75,69 @@ class Masuk extends Component {
         return(
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Text style={{position: 'absolute'}}>Tanggal</Text>
                     <View style={styles.headerText}>
-                      <TextInput style={styles.dateText} >{this.props.data.data}</TextInput>
+                      <Text style={styles.dateText} >ID hewan <Text style={{fontWeight: 'bold'}}>masuk :</Text></Text>
+                      <Text style={styles.dateText} ><Text style={{fontWeight: 'bold'}}>{this.props.data.data}</Text></Text>
                     </View>
                 </View>
                 <View style={styles.bodyContainer}>
-                    <Text style={{position: 'absolute'}}>Body</Text>
                     <View style={styles.bodyContent}>
 
-                      <View style={styles.radioWrap}>
+                      <View style={styles.contentWrap}>
                         <Text style={styles.bodyText} >Cukur</Text>
-                        <RadioForm
-                          buttonSize={14}
-                          labelStyle={{marginRight: 8,}}
-                          labelColor={'#2196f3'}
-                          selectedLabelColor={'#2196f3'}
-                          formHorizontal={true}
-                          buttonColor={'#2196f3'}
-                          animation={true}
-                          radio_props={this.state.radio_props}
-                          initial={1}
-                          onPress={(value) => {this.setState({cukur:value})}}
-                        />
+                        <View style={styles.radioWrap}>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          style={this.state.cukur ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({cukur: true})}>
+                        <Text style={this.state.cukur ? styles.welcomePress : styles.welcome}>Tidak</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          style={!this.state.cukur ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({cukur: false})}>
+                          <Text style={!this.state.cukur ? styles.yesPress : styles.yes}>Ya</Text>
+                        </TouchableOpacity>
+                        </View>
                       </View>
 
-                      <View style={styles.radioWrap}>
-                      <Text style={styles.bodyText} >Suntik</Text>
-                      <RadioForm
-                        buttonSize={14}
-                        labelStyle={{marginRight: 8,}}
-                        labelColor={'#2196f3'}
-                        selectedLabelColor={'#2196f3'}
-                        formHorizontal={true}
-                        buttonColor={'#2196f3'}
-                        animation={true}
-                        radio_props={this.state.radio_props}
-                        initial={1}
-                        onPress={(value) => {this.setState({suntik:value})}}
-                      />
+                      <View style={styles.contentWrap}>
+                        <Text style={styles.bodyText} >Suntik</Text>
+                        <View style={styles.radioWrap}>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          style={this.state.suntik ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({suntik: true})}>
+                        <Text style={this.state.suntik ? styles.welcomePress : styles.welcome}>Tidak</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          style={!this.state.suntik ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({suntik: false})}>
+                          <Text style={!this.state.suntik ? styles.yesPress : styles.yes}>Ya</Text>
+                        </TouchableOpacity>
+                        </View>
                       </View>
 
-                      <View style={styles.radioWrap}>
-                      <Text style={styles.bodyText} >Pemberian Obat</Text>
-                      <RadioForm
-                        buttonSize={14}
-                        labelStyle={{marginRight: 8,}}
-                        labelColor={'#2196f3'}
-                        selectedLabelColor={'#2196f3'}
-                        formHorizontal={true}
-                        buttonColor={'#2196f3'}
-                        animation={true}
-                        radio_props={this.state.radio_props}
-                        initial={1}
-                        onPress={(value) => {this.setState({obat:value})}}
-                      />
+                      <View style={styles.contentWrap}>
+                        <Text style={styles.bodyText} >Pemberian Obat</Text>
+                        <View style={styles.radioWrap}>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          style={this.state.obat ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({obat: true})}>
+                        <Text style={this.state.obat ? styles.welcomePress : styles.welcome}>Tidak</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          style={!this.state.obat ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({obat: false})}>
+                          <Text style={!this.state.obat ? styles.yesPress : styles.yes}>Ya</Text>
+                        </TouchableOpacity>
+                        </View>
                       </View>
 
-                      <View style={styles.radioWrap}>
+                      <View style={styles.contentWrap}>
                         <Text style={styles.bodyText} >Berat</Text>
                         <Text style={styles.bodyText} >{this.state.berat}</Text>
                       </View>
@@ -138,15 +145,15 @@ class Masuk extends Component {
                      
                     <View style={styles.picContent}>
                       <TouchableOpacity onPress={this.goToKamera}>
-                        <Image source={{uri: this.props.image}} style={styles.gambar}/>
+                        <FontAwesomeIcon icon={ faCircle } color={'#D8D8D8'} size={100} style={styles.imageHolder1} />
+                        <FontAwesomeIcon icon={ faCamera } color={'#767676'} size={60} style={styles.imageHolder2} />
+                        <Image source={{uri: this.props.image}} style={styles.gambar}/> 
                       </TouchableOpacity>
                     </View>
-                    <View style={styles.buttonContent}>
-                    <Button 
-                      title="Simpan"
-                      buttonStyle={{marginHorizontal: 25, borderRadius: 0}}
-                      onPress={this.doSimpan}
-                    />
+                    <View style={styles.buttonView}>
+                      <TouchableOpacity onPress={this.doSimpan}>
+                        <Text style={styles.buttonSimpan}>Simpan</Text>
+                      </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -160,7 +167,7 @@ export default Masuk;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#90CAF9',
+    backgroundColor: '#ffffff',
     width:'100%',
   },
   headerContainer: {
@@ -172,25 +179,24 @@ const styles = StyleSheet.create({
     marginVertical: '7%',
   },
   dateText: {
-    color: '#42A5F5',
-    borderColor: '#42A5F5',
-    borderWidth: 0.5,
-    textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    color: '#000000'
   },
   bodyContainer: {
     flex: 5,
   },
   bodyContent: {
-    flex: 3,
-    backgroundColor: '#BBDEFB',
-    margin: 25,
-  },
-  picContent: {
-    flex: 2,
+    flex: 4,
     backgroundColor: '#ffffff',
     marginHorizontal: 25,
-    marginBottom: 10,
+  },
+  picContent: {
+    flex: 3,
+    borderColor: '#eeeeee',
+    borderWidth: 5,
+    borderRadius:20,
+    marginHorizontal: 25,
+    marginBottom: 100,
   },
   gambar: {
     width: '100%',
@@ -202,13 +208,85 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     fontSize: 17,
-    color: "#42A5F5",
-    fontWeight: "600",
-    marginRight: 10,
+    color: "#000000",
+    paddingTop: 12,
+    // fontWeight: "600",
   },
-  radioWrap: {
-    margin: 11,
+  contentWrap: {
+    marginVertical: 6,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  }
+  },
+  radioWrap: {
+    flexDirection: 'row',
+  },
+  
+  welcome: {
+    fontSize: 16,
+    textAlign: "center",
+    margin: 10,
+    color: "#000000"
+  },
+  welcomePress: {
+      fontSize: 16,
+      textAlign: "center",
+      margin: 10,
+      color: "#ffffff"
+  },
+  yes: {
+    fontSize: 16,
+    textAlign: "center",
+    margin: 10,
+    marginHorizontal: 23,
+    color: "#000000"
+  },
+  yesPress: {
+    fontSize: 16,
+    textAlign: "center",
+    margin: 10,
+    marginHorizontal: 23,
+    color: "#ffffff"
+  },
+  button: {
+    borderColor: "#048573",
+    borderWidth: 1,
+    borderRadius: 20,
+    marginLeft: 10
+  },
+  buttonPress: {
+    borderColor: "#048573",
+    backgroundColor: "#048573",
+    borderWidth: 1,
+    borderRadius: 20,
+    marginLeft: 10
+  },
+  buttonView: {
+    position:'absolute',
+    bottom:0,
+    alignSelf:'flex-end', 
+    width:'100%',
+    height: 61,
+    backgroundColor: '#048573',
+    justifyContent: 'space-between',
+  },
+  buttonSimpan: {
+    fontSize: 20,
+    color: '#ffffff',
+    paddingTop: 15,
+    paddingLeft: 20,
+  },
+  imageHolder1: {
+    position: 'absolute', 
+    width: '100%',
+    height: '100%',
+    marginVertical: '7%',
+    alignSelf: 'center',
+  },
+  imageHolder2: {
+    position: 'absolute', 
+    width: '100%',
+    height: '100%',
+    marginVertical: '9%',
+    alignSelf: 'center',
+  },
 });
