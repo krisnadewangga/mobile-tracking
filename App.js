@@ -12,25 +12,20 @@ const theme = {
   Button: {
     raised: false,
     titleStyle: {
-      color: '#ffffff',
+      color: '#000000',
       fontSize: 14,
-      textShadowColor: 'rgba(204, 128, 41, 1)',
-      textShadowOffset: {width: 0.5, height: 1},
-      textShadowRadius: 1
+      // textShadowColor: 'rgba(204, 128, 41, 1)',
+      // textShadowOffset: {width: 0.5, height: 1},
+      // textShadowRadius: 1
     },
-    buttonStyle: {
-      height: 50, 
-      borderRadius:25, 
-      margin: 8,
-      backgroundColor: '#42A5F5',
-      paddingHorizontal: 20,
+    buttonStyle: { 
+      backgroundColor: '#ffffff',
+      borderColor: '#048573',
+      borderWidth: 1,
     },
   },
   Input: {
-    placeholderTextColor: '#42A5F5',
-    labelStyle: { color: '#ffffff' },
-    inputStyle: { color: '#42A5F5' },
-    inputContainerStyle: { borderColor: '#42A5F5', marginTop: 24 },
+    // inputContainerStyle: { marginTop: 20 },
     errorStyle: { color: '#ffde00', margin: 0 },
     errorMessage: ''
   }

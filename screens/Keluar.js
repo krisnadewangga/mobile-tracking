@@ -4,6 +4,9 @@ import { Input, Button} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCamera, faCircle } from '@fortawesome/free-solid-svg-icons'
+
 
 class Masuk extends Component {
     constructor(props) {
@@ -58,15 +61,15 @@ class Masuk extends Component {
         return(
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Text style={{position: 'absolute'}}>Tanggal</Text>
                     <View style={styles.headerText}>
-                      <TextInput style={styles.dateText}>{this.props.data.data}</TextInput>
+                      <Text style={styles.dateText} >ID hewan <Text style={{fontWeight: 'bold'}}>keluar :</Text></Text>
+                      <Text style={styles.dateText}><Text style={{fontWeight: 'bold'}}>{this.props.data.data}</Text></Text>
+
                     </View>
                 </View>
                 <View style={styles.bodyContainer}>
-                    <Text style={{position: 'absolute'}}>Body</Text>
                     <View style={styles.bodyContent}>
-
+                      <Text style={styles.bodyText} >Berapa berat hewan ternak yang akan keluar ini?</Text>
                       <View style={styles.radioWrap}>
                         <Text style={styles.bodyText} >Berat</Text>
                         <Text style={styles.bodyText} >{this.state.berat}</Text>
@@ -75,15 +78,15 @@ class Masuk extends Component {
                      
                     <View style={styles.picContent}>
                       <TouchableOpacity onPress={this.goToKamera}>
+                        <FontAwesomeIcon icon={ faCircle } color={'#D8D8D8'} size={100} style={styles.imageHolder1} />
+                        <FontAwesomeIcon icon={ faCamera } color={'#767676'} size={60} style={styles.imageHolder2} />
                         <Image source={{uri: this.props.image}} style={styles.gambar}/>
                       </TouchableOpacity>
                     </View>
-                    <View style={styles.buttonContent}>
-                    <Button 
-                      title="Simpan"
-                      buttonStyle={{marginHorizontal: 25, borderRadius: 0}}
-                      onPress={this.doSimpan}
-                    />
+                    <View style={styles.buttonView}>
+                      <TouchableOpacity onPress={this.doSimpan}>
+                        <Text style={styles.buttonSimpan}>Simpan</Text>
+                      </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -97,7 +100,7 @@ export default Masuk;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#90CAF9',
+    backgroundColor: '#ffffff',
     width:'100%',
   },
   headerContainer: {
@@ -109,25 +112,23 @@ const styles = StyleSheet.create({
     marginVertical: '7%',
   },
   dateText: {
-    color: '#42A5F5',
-    borderColor: '#42A5F5',
-    borderWidth: 0.5,
-    textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    color: '#000000'
   },
   bodyContainer: {
     flex: 5,
   },
   bodyContent: {
-    marginTop: '15%',
-    backgroundColor: '#BBDEFB',
-    margin: 25,
+    backgroundColor: '#ffffff',
+    marginHorizontal: 25,
   },
   picContent: {
     flex: 2,
-    backgroundColor: '#ffffff',
+    borderColor: '#eeeeee',
+    borderWidth: 5,
+    borderRadius:20,
     marginHorizontal: 25,
-    marginBottom: 10,
+    marginBottom: 200,
   },
   gambar: {
     width: '100%',
@@ -138,15 +139,41 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bodyText: {
-    fontSize: 17,
-    color: "#42A5F5",
-    fontWeight: "600",
-    marginRight: 10,
-    
+    fontSize: 20,
+    color: "#000000",
+    paddingVertical: 12,
   },
   radioWrap: {
-    margin: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  }
+  },
+  buttonView: {
+    position:'absolute',
+    bottom:0,
+    alignSelf:'flex-end', 
+    width:'100%',
+    height: 61,
+    backgroundColor: '#048573',
+    justifyContent: 'space-between',
+  },
+  buttonSimpan: {
+    fontSize: 20,
+    color: '#ffffff',
+    paddingTop: 15,
+    paddingLeft: 20,
+  },
+  imageHolder1: {
+    position: 'absolute', 
+    width: '100%',
+    height: '100%',
+    marginVertical: '7%',
+    alignSelf: 'center',
+  },
+  imageHolder2: {
+    position: 'absolute', 
+    width: '100%',
+    height: '100%',
+    marginVertical: '9%',
+    alignSelf: 'center',
+  },
 });
