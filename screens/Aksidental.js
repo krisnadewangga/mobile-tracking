@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
-import { Input, Button} from 'react-native-elements';
+import { Input, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import RadioForm from 'react-native-simple-radio-button';
 import axios from 'axios'
@@ -122,10 +122,11 @@ class Masuk extends Component {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.buttonView}>
-                      <TouchableOpacity onPress={this.doSimpan}>
+                      <TouchableOpacity onPress={this.doSimpan} style={styles.navButton}>
                         <Text style={styles.buttonSimpan}>Simpan</Text>
+                        <Icon name="angle-right" type="font-awesome" color={'#ffffff'} containerStyle={styles.myIcon} size={40}/>
                       </TouchableOpacity>
-                    </View>
+                  </View>
               </View>
             </View>
         )
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignSelf: 'center',
+    borderRadius: 15
   },
   buttonContent: {
     flex: 1,
@@ -197,6 +199,7 @@ const styles = StyleSheet.create({
   contentWrap: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '100%'
   },  
   welcome: {
     fontSize: 16,
@@ -214,14 +217,14 @@ const styles = StyleSheet.create({
     borderColor: "#048573",
     borderWidth: 1,
     borderRadius: 20,
-    width: 85,
+    // width: 85,
   },
   buttonPress: {
     borderColor: "#048573",
     backgroundColor: "#048573",
     borderWidth: 1,
     borderRadius: 20,
-    width: 85,
+    // width: 85,
   },
   buttonView: {
     position:'absolute',
@@ -235,8 +238,6 @@ const styles = StyleSheet.create({
   buttonSimpan: {
     fontSize: 20,
     color: '#ffffff',
-    paddingTop: 15,
-    paddingLeft: 20,
   },
   imageHolder1: {
     position: 'absolute', 
@@ -252,4 +253,11 @@ const styles = StyleSheet.create({
     marginVertical: '9%',
     alignSelf: 'center',
   },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    paddingHorizontal: 20
+  }
 });

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity } from 'react-native';
-import { Input, Button} from 'react-native-elements';
+import { Input, Button, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowAltCircleDown, faArrowAltCircleUp, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 
 class MenuDrawer extends Component {
 
@@ -40,18 +38,27 @@ class MenuDrawer extends Component {
             </View>
           </View>
           <View style={styles.menu}>
-              <Button buttonStyle={styles.buttonText} title="Scan Hewan Masuk" titleStyle={{marginLeft: '10%'}} onPress={this.goToMasuk}/>
-              <FontAwesomeIcon icon={ faArrowAltCircleDown } color={'#048573'} size={27} style={styles.icon1}  onPress={this.goToMasuk}/>
-              <Button buttonStyle={styles.buttonText} title="Scan Hewan Keluar" titleStyle={{marginLeft: '10%'}} onPress={this.goToKeluar} />
-              <FontAwesomeIcon icon={ faArrowAltCircleUp } color={'#048573'} size={27} style={styles.icon2} onPress={this.goToKeluar} />
-              <Button buttonStyle={styles.buttonText} title="Scan Aksidental" onPress={this.goToAksidental} />
-              <FontAwesomeIcon icon={ faExclamationCircle } color={'#048573'} size={27} style={styles.icon3} onPress={this.goToAksidental} />
+              
+          <TouchableOpacity style={styles.iconButton} onPress={this.goToMasuk}>
+                <Icon name="arrow-circle-down" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Hewan Masuk</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconButton} onPress={this.goToKeluar}>
+                <Icon name="arrow-circle-up" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Hewan Keluar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconButton} onPress={this.goToAksidental}>
+                <Icon name="exclamation-circle" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Aksidental</Text>
+              </TouchableOpacity>
+
           </View>
           <View style={styles.buttonView}>
-            <TouchableOpacity onPress={this.doLogout}>
-              <Text style={styles.button}>Keluar</Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity onPress={this.doLogout} style={styles.navButton}>
+                <Text style={styles.button}>Keluar</Text>  
+                <Icon name="sign-out" type="font-awesome" color={'#ffffff'} containerStyle={styles.myIcon} size={30}/>
+              </TouchableOpacity>
+            </View>
         </View>
     );
   }
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
   menu: {
     flex: 5,
     backgroundColor: '#EEF0F5',
-    width:'100%',
+    marginHorizontal: 20
   },
   // avatar: {
   //   width: 70,
@@ -108,29 +115,30 @@ const styles = StyleSheet.create({
   button: {
     fontSize: 20,
     color: '#ffffff',
-    paddingTop: 15,
-    paddingLeft: 20,
   },
-  buttonText: {
+  iconButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
     borderRadius: 165,
-    height: 59,
-    width: 236,
-    margin: 9,
-    backgroundColor: '#EEF0F5',
+    borderWidth: 1,
+    borderColor: '#048573',
+    marginVertical: 6
   },
-  icon1: {
-    position: "absolute",
-    marginTop: '6.5%',
-    marginLeft: '6.5%'
+  myIcon: {
+    marginHorizontal: 6,
+    marginRight: 10,
   },
-  icon2: {
-    position: "absolute",
-    marginTop: '26%',
-    marginLeft: '6.5%'
+  titleButton: {
+    fontSize: 17,
+    fontWeight: '400',
+    color: '#000000'
   },
-  icon3: {
-    position: "absolute",
-    marginTop: '45%',
-    marginLeft: '6.5%'
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 15,
+    paddingHorizontal: 20
   }
 });

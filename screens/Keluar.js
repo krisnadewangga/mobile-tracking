@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
-import { Input, Button} from 'react-native-elements';
+import { Input, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -84,8 +84,9 @@ class Masuk extends Component {
                       </TouchableOpacity>
                     </View>
                     <View style={styles.buttonView}>
-                      <TouchableOpacity onPress={this.doSimpan}>
+                      <TouchableOpacity onPress={this.doSimpan} style={styles.navButton}>
                         <Text style={styles.buttonSimpan}>Simpan</Text>
+                        <Icon name="angle-right" type="font-awesome" color={'#ffffff'} containerStyle={styles.myIcon} size={40}/>
                       </TouchableOpacity>
                     </View>
                 </View>
@@ -134,6 +135,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignSelf: 'center',
+    borderRadius: 15
   },
   buttonContent: {
     flex: 1,
@@ -159,8 +161,6 @@ const styles = StyleSheet.create({
   buttonSimpan: {
     fontSize: 20,
     color: '#ffffff',
-    paddingTop: 15,
-    paddingLeft: 20,
   },
   imageHolder1: {
     position: 'absolute', 
@@ -176,4 +176,11 @@ const styles = StyleSheet.create({
     marginVertical: '9%',
     alignSelf: 'center',
   },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    paddingHorizontal: 20
+  }
 });
