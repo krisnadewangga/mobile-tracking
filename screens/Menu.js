@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, Alert } from 'react-native';
-import { Input, Button} from 'react-native-elements';
+import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity  } from 'react-native';
+import { Input, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowAltCircleDown, faArrowAltCircleUp, faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 
 class Menu extends Component {
 
@@ -38,27 +36,19 @@ class Menu extends Component {
             <View style={styles.componentContainer}>
               <Text style={styles.componentText}>Apa yang kamu mau lakukan ?</Text>
 
-              <Button buttonStyle={styles.buttonText} title="Scan Hewan Masuk" titleStyle={{marginLeft: '10%'}} onPress={this.goToMasuk}/>
-              <FontAwesomeIcon icon={ faArrowAltCircleDown } color={'#048573'} size={17} style={styles.icon1}  onPress={this.goToMasuk}/>
-              <Button buttonStyle={styles.buttonText} title="Scan Hewan Keluar" titleStyle={{marginLeft: '10%'}} onPress={this.goToKeluar} />
-              <FontAwesomeIcon icon={ faArrowAltCircleUp } color={'#048573'} size={17} style={styles.icon2} onPress={this.goToKeluar} />
-              <Button buttonStyle={styles.buttonText} title="Scan Aksidental" onPress={this.goToAksidental} />
-              <FontAwesomeIcon icon={ faExclamationCircle } color={'#048573'} size={17} style={styles.icon3} onPress={this.goToAksidental} />
+              <TouchableOpacity style={styles.iconButton} onPress={this.goToMasuk}>
+                <Icon name="arrow-circle-down" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Hewan Masuk</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconButton} onPress={this.goToKeluar}>
+                <Icon name="arrow-circle-up" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Hewan Keluar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.iconButton} onPress={this.goToAksidental}>
+                <Icon name="exclamation-circle" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Aksidental</Text>
+              </TouchableOpacity>
 
-            {/* <View style={styles.componentContainer1}>
-              <Text>MASUK</Text>
-              <View style={styles.bodyText}>
-                <Text style={styles.nameText} onPress={this.goToMasuk}>MASUK</Text>
-              </View>
-              <Text>KELUAR</Text>
-              <View style={styles.bodyText}>
-                <Text style={styles.nameText} onPress={this.goToKeluar}>KELUAR</Text>
-              </View>
-              <Text>AKSIDENTAL</Text>
-              <View style={styles.bodyText}>
-                <Text style={styles.nameText} onPress={this.goToAksidental}>AKSIDENTAL</Text>
-              </View>
-            </View> */}
             </View>
           </View>
         </View>
@@ -99,25 +89,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  buttonText: {
+  iconButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
     borderRadius: 165,
-    height: 59,
-    width: 236,
-    margin: 9,
+    borderWidth: 1,
+    borderColor: '#048573',
+    marginVertical: 6
   },
-  icon1: {
-    position: 'absolute',
-    marginTop: '20%',
-    marginLeft: '11%'
+  myIcon: {
+    marginHorizontal: 6,
+    marginRight: 10,
   },
-  icon2: {
-    position: "absolute",
-    marginTop: '37%',
-    marginLeft: '11%'
-  },
-  icon3: {
-    position: "absolute",
-    marginTop: '54%',
-    marginLeft: '11%'
+  titleButton: {
+    fontSize: 20,
+    fontWeight: '400',
+    color: '#000000'
   }
 });

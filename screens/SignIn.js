@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
-import { Input, Button} from 'react-native-elements';
+import { Input, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -85,8 +85,9 @@ class SignIn extends Component {
             </View>
             
             <View style={styles.buttonView}>
-              <TouchableOpacity onPress={this.goToMenu}>
-                <Text style={styles.button}>Lanjut</Text>
+              <TouchableOpacity onPress={this.goToMenu} style={styles.navButton}>
+                <Text style={styles.button}>Lanjut</Text>  
+                <Icon name="angle-right" type="font-awesome" color={'#ffffff'} containerStyle={styles.myIcon} size={40}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -135,17 +136,21 @@ const styles = StyleSheet.create({
     width:'100%',
     height: 61,
     backgroundColor: '#048573',
-    justifyContent: 'space-between',
   },
   button: {
     fontSize: 20,
     color: '#ffffff',
-    paddingTop: 15,
-    paddingLeft: 20,
   },
   last: {
     position:'absolute',
     bottom:0,
     paddingLeft: 20,
   },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
+    paddingHorizontal: 20
+  }
 });
