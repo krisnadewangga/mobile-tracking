@@ -12,14 +12,13 @@ class Masuk extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          radio_props: [
-            {label: 'Tidak', value: "No" },
-            {label: 'Ya', value: "Yes" }
-          ],
           berat: '52 kg',
           cukur: false,
           suntik: false,
           obat: false,
+          statusCukur: 'No',
+          statusSuntik: 'No',
+          statusObat: 'No',
         }
     }
 
@@ -44,9 +43,9 @@ class Masuk extends Component {
             type: `image/${fileType}`,
           });
           formData.append('kode_kambing', this.props.data.data)
-          formData.append('cukur', this.state.cukur)
-          formData.append('suntik_vaksin', this.state.suntik)
-          formData.append('obat_cacing', this.state.obat)
+          formData.append('cukur', this.state.statusCukur)
+          formData.append('suntik_vaksin', this.state.statusSuntik)
+          formData.append('obat_cacing', this.state.statusObat)
           formData.append('berat', this.state.berat)
           formData.append('user_id', 1)
           axios({ 
@@ -68,6 +67,7 @@ class Masuk extends Component {
       } 
       catch (error) {
         console.log("Error", error)
+        Alert.alert("Alert !", "Invalid data")
       }
     }
 
@@ -88,14 +88,14 @@ class Masuk extends Component {
                         <View style={styles.radioWrap}>
                         <TouchableOpacity
                           activeOpacity={1}
-                          style={this.state.cukur ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({cukur: true})}>
+                          style={!this.state.cukur ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({cukur: false, statusCukur: 'No'}, console.log(this.state.statusCukur))}>
                         <Text style={this.state.cukur ? styles.welcomePress : styles.welcome}>Tidak</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           activeOpacity={1}
-                          style={!this.state.cukur ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({cukur: false})}>
+                          style={this.state.cukur ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({cukur: true, statusCukur: 'Yes'}, console.log(this.state.statusCukur))}>
                           <Text style={!this.state.cukur ? styles.yesPress : styles.yes}>Ya</Text>
                         </TouchableOpacity>
                         </View>
@@ -106,14 +106,14 @@ class Masuk extends Component {
                         <View style={styles.radioWrap}>
                         <TouchableOpacity
                           activeOpacity={1}
-                          style={this.state.suntik ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({suntik: true})}>
+                          style={!this.state.suntik ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({suntik: false, statusSuntik: 'No'})}>
                         <Text style={this.state.suntik ? styles.welcomePress : styles.welcome}>Tidak</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           activeOpacity={1}
-                          style={!this.state.suntik ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({suntik: false})}>
+                          style={this.state.suntik ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({suntik: true, statusSuntik: 'Yes'})}>
                           <Text style={!this.state.suntik ? styles.yesPress : styles.yes}>Ya</Text>
                         </TouchableOpacity>
                         </View>
@@ -124,14 +124,14 @@ class Masuk extends Component {
                         <View style={styles.radioWrap}>
                         <TouchableOpacity
                           activeOpacity={1}
-                          style={this.state.obat ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({obat: true})}>
+                          style={!this.state.obat ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({obat: false, statusObat: 'No'})}>
                         <Text style={this.state.obat ? styles.welcomePress : styles.welcome}>Tidak</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           activeOpacity={1}
-                          style={!this.state.obat ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({obat: false})}>
+                          style={this.state.obat ? styles.buttonPress : styles.button}
+                          onPress={() => this.setState({obat: true, statusObat: 'Yes'})}>
                           <Text style={!this.state.obat ? styles.yesPress : styles.yes}>Ya</Text>
                         </TouchableOpacity>
                         </View>
@@ -147,6 +147,7 @@ class Masuk extends Component {
                       <TouchableOpacity onPress={this.goToKamera}>
                         <FontAwesomeIcon icon={ faCircle } color={'#D8D8D8'} size={100} style={styles.imageHolder1} />
                         <FontAwesomeIcon icon={ faCamera } color={'#767676'} size={60} style={styles.imageHolder2} />
+                        <Text style={styles.imageHolder3}>Foto Hewan Masuk</Text>
                         <Image source={{uri: this.props.image}} style={styles.gambar}/> 
                       </TouchableOpacity>
                     </View>
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
+    marginTop: '15%',
     backgroundColor: '#ffffff',
   },
   headerText: {
@@ -227,27 +229,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     margin: 10,
-    color: "#000000"
+    color: "#ffffff"
   },
   welcomePress: {
       fontSize: 16,
       textAlign: "center",
       margin: 10,
-      color: "#ffffff"
+      color: "#000000"
   },
   yes: {
     fontSize: 16,
     textAlign: "center",
     margin: 10,
     marginHorizontal: 23,
-    color: "#000000"
+    color: "#ffffff"
   },
   yesPress: {
     fontSize: 16,
     textAlign: "center",
     margin: 10,
     marginHorizontal: 23,
-    color: "#ffffff"
+    color: "#000000"
   },
   button: {
     borderColor: "#048573",
@@ -277,17 +279,19 @@ const styles = StyleSheet.create({
   },
   imageHolder1: {
     position: 'absolute', 
-    width: '100%',
-    height: '100%',
-    marginVertical: '7%',
+    marginVertical: '3%',
     alignSelf: 'center',
   },
   imageHolder2: {
     position: 'absolute', 
-    width: '100%',
-    height: '100%',
-    marginVertical: '9%',
+    marginVertical: '6%',
     alignSelf: 'center',
+  },
+  imageHolder3: {
+    position: 'absolute', 
+    marginVertical: '40%',
+    alignSelf: 'center',
+    fontSize: 20,
   },
   navButton: {
     flexDirection: 'row',

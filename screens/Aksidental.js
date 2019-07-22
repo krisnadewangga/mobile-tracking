@@ -66,6 +66,7 @@ class Masuk extends Component {
       } 
       catch (error) {
         console.log("Error", error)
+        Alert.alert("Alert !", "Invalid data")
       }
     }
 
@@ -118,6 +119,7 @@ class Masuk extends Component {
                     <TouchableOpacity onPress={this.goToKamera}>
                       <FontAwesomeIcon icon={ faCircle } color={'#D8D8D8'} size={100} style={styles.imageHolder1} />
                       <FontAwesomeIcon icon={ faCamera } color={'#767676'} size={60} style={styles.imageHolder2} />
+                      <Text style={styles.imageHolder3}>Foto Hewan Aksidental</Text>
                       <Image source={{uri: this.props.image}} style={styles.gambar}/>
                     </TouchableOpacity>
                   </View>
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
+    marginTop: '15%',
     backgroundColor: '#ffffff',
   },
   headerText: {
@@ -241,17 +244,19 @@ const styles = StyleSheet.create({
   },
   imageHolder1: {
     position: 'absolute', 
-    width: '100%',
-    height: '100%',
-    marginVertical: '7%',
+    marginVertical: '4%',
     alignSelf: 'center',
   },
   imageHolder2: {
     position: 'absolute', 
-    width: '100%',
-    height: '100%',
-    marginVertical: '9%',
+    marginVertical: '7%',
     alignSelf: 'center',
+  },
+  imageHolder3: {
+    position: 'absolute', 
+    marginVertical: '40%',
+    alignSelf: 'center',
+    fontSize: 20,
   },
   navButton: {
     flexDirection: 'row',
