@@ -1,6 +1,7 @@
 import React from 'react'
-import { Router, Scene } from 'react-native-router-flux'
+import { Router, Scene, Drawer } from 'react-native-router-flux'
 import { StyleSheet } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 import SignIn from '../screens/SignIn.js'
 import Menu from '../screens/Menu.js'
@@ -15,15 +16,15 @@ import Splashscreen from '../screens/Splashscreen.js';
 const Routes = () => (
    <Router>
       <Scene key = "root">
-         <Scene key="Splashscreen" component={Splashscreen} hideNavBar={true} initial={true} />
+         <Scene key="Splashscreen" component={Splashscreen} hideNavBar={true} initial />
          <Scene key="SignIn" component={SignIn} hideNavBar={true} type="replace" />
-         <Scene key="MenuDrawer" drawer={true} contentComponent={MenuDrawer} hideNavBar={true} type="replace"  >
-            <Scene key="Menu" component={Menu} title="Monitoring" navigationBarStyle={styles.navigationBarTitleStyle} navBarButtonColor='white'  />
-         </Scene>
+         <Drawer key="MenuDrawer" contentComponent={MenuDrawer} hideNavBar={true} type="replace" drawerImage={require('../logo/drawer.png')} >
+            <Scene key="Menu" component={Menu} navTransparent={true} />
+         </Drawer>
          <Scene key="Scan" component={Scan} hideNavBar={true}/>
-         <Scene key="Masuk" component={Masuk} hideNavBar={false} title="Masuk" navigationBarStyle={styles.navigationBarTitleStyle} navBarButtonColor='white' />
-         <Scene key="Keluar" component={Keluar} hideNavBar={false} title="Keluar" navigationBarStyle={styles.navigationBarTitleStyle} navBarButtonColor='white'  />
-         <Scene key="Aksidental" component={Aksidental} hideNavBar={false} title="Aksidental" navigationBarStyle={styles.navigationBarTitleStyle} navBarButtonColor='white' />
+         <Scene key="Masuk" component={Masuk} navTransparent={true}  />
+         <Scene key="Keluar" component={Keluar} navTransparent={true} />
+         <Scene key="Aksidental" component={Aksidental} navTransparent={true}  />
          <Scene key="Kamera" component={Kamera} hideNavBar={true}/>
       </Scene>
    </Router>
@@ -32,6 +33,13 @@ export default Routes
 
 const styles = StyleSheet.create({
     navigationBarTitleStyle: {
-     backgroundColor: '#42A5F5'
+      position: 'absolute',
+      backgroundColor: 'transparent',
+      zIndex: 100,
+      top: 0,
+      left: 0,
+      right: 0,
+      borderBottomWidth: 0,
+      elevation: 0,
  }
 });

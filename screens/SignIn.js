@@ -57,11 +57,11 @@ class SignIn extends Component {
           <View style={styles.bodyContainer}>
             <View style={styles.formSignIn}>
 
-              <Text>Silahkan masukkan</Text>
-              <Text><Text style={{fontWeight:'bold'}}>User</Text> dan <Text style={{fontWeight:'bold'}}>Password</Text> kamu</Text>
+              <Text style={{color: '#000000'}}>Silahkan masukkan</Text>
+              <Text style={{color: '#000000'}}><Text style={{fontWeight:'bold'}}>User</Text> dan <Text style={{fontWeight:'bold'}}>Password</Text> kamu</Text>
 
               <Input
-                placeholder='Masukkan Username'
+                placeholder='Masukkan User'
                 onChangeText={username => this.setState({ username })}
                 errorMessage=''
                 underlineColorAndroid='rgba(10,0,0,0)'
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
   formSignIn: {
     paddingVertical: '10%',
     paddingHorizontal: '5%',
+    height: '80%'
   },
   buttonView: {
     position:'absolute',
@@ -145,6 +146,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0,
     paddingLeft: 20,
+    color: '#000000'
   },
   navButton: {
     flexDirection: 'row',
