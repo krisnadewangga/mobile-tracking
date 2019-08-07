@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Scene, Drawer } from 'react-native-router-flux'
+import { Router, Scene, Drawer, Modal } from 'react-native-router-flux'
 import { StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -16,13 +16,13 @@ import Splashscreen from '../screens/Splashscreen.js';
 const Routes = () => (
    <Router>
       <Scene key = "root">
-         <Scene key="Splashscreen" component={Splashscreen} hideNavBar={true} initial />
+         <Scene key="Splashscreen" component={Splashscreen} hideNavBar={true} initial/>
          <Scene key="SignIn" component={SignIn} hideNavBar={true} type="replace" />
-         <Drawer key="MenuDrawer" contentComponent={MenuDrawer} hideNavBar={true} type="replace" drawerImage={require('../logo/drawer.png')} >
+         <Drawer key="MenuDrawer" contentComponent={MenuDrawer} hideNavBar={true} type="replace" drawerImage={require('../logo/drawer.png')} leftButtonIconStyle={{top: -20, width: 30, height: 30}} >
             <Scene key="Menu" component={Menu} navTransparent={true} />
          </Drawer>
          <Scene key="Scan" component={Scan} hideNavBar={true}/>
-         <Scene key="Masuk" component={Masuk} navTransparent={true}  />
+         <Scene key="Masuk" component={Masuk} navTransparent={true} />
          <Scene key="Keluar" component={Keluar} navTransparent={true} />
          <Scene key="Aksidental" component={Aksidental} navTransparent={true}  />
          <Scene key="Kamera" component={Kamera} hideNavBar={true}/>
