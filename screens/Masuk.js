@@ -57,11 +57,15 @@ class Masuk extends Component {
           .then(res => {
             console.log(res, this.props, "GET")
             console.log(formData)
-            Alert.alert("Success", "Data saved succesfully", [{text: 'OK', onPress: () => Actions.popTo('_Menu')}])
+            if(res.data.status === 'success'){
+              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () => Actions.popTo('Scan')}])
+            } 
+            else if (res.data.status === 'failed') {
+              Alert.alert("Alert !", res.data.message)
+            }
           })
           .catch(res => {
-            console.log(res.response, this.props, formData, "CATCH")
-            console.log(JSON.stringify(this.props.image))
+            console.log(res, res.response, formData, "CATCH")
             Alert.alert("Alert !", "Invalid data")
           })
       } 
@@ -205,7 +209,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignSelf: 'center',
-    borderRadius: 15
+    borderRadius: 15,
+    // aspectRatio: 1
   },
   buttonContent: {
     flex: 1
@@ -289,7 +294,7 @@ const styles = StyleSheet.create({
   },
   imageHolder3: {
     position: 'absolute', 
-    marginVertical: '40%',
+    marginVertical: '36%',
     alignSelf: 'center',
     fontSize: 20,
   },

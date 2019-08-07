@@ -57,8 +57,8 @@ class SignIn extends Component {
           <View style={styles.bodyContainer}>
             <View style={styles.formSignIn}>
 
-              <Text style={{color: '#000000'}}>Silahkan masukkan</Text>
-              <Text style={{color: '#000000'}}><Text style={{fontWeight:'bold'}}>User</Text> dan <Text style={{fontWeight:'bold'}}>Password</Text> kamu</Text>
+              <Text style={{color: '#000000', fontSize: 16}}>Silahkan masukkan</Text>
+              <Text style={{color: '#000000', fontSize: 16}}><Text style={{fontWeight:'bold'}}>User</Text> dan <Text style={{fontWeight:'bold'}}>Password</Text> kamu</Text>
 
               <Input
                 placeholder='Masukkan User'

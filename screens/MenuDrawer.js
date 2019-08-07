@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, TouchableHighlight, Modal, Dimensions } from 'react-native';
 import { Input, Button, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -11,7 +11,12 @@ class MenuDrawer extends Component {
     this.state = {
       username: '',
       password: '',
+      modalVisible: false,
+      width: Dimensions.get('window').width,
     };
+    Dimensions.addEventListener('change', (e) => {
+      this.setState(e.window)
+    })
   }
 
   goToMasuk = () => {
@@ -26,6 +31,10 @@ class MenuDrawer extends Component {
   doLogout = () => {
     Actions.SignIn()
     AsyncStorage.removeItem('token')
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   render() {
@@ -54,7 +63,25 @@ class MenuDrawer extends Component {
 
           </View>
           <View style={styles.buttonView}>
-              <TouchableOpacity onPress={this.doLogout} style={styles.navButton}>
+              <TouchableOpacity onPress={() => {this.setModalVisible(true)}} style={styles.navButton}>
+
+              <Modal animationType="fade" transparent={true} visible={this.state.modalVisible}>
+                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                  <View style={[styles.modal, {width: this.state.width - 80}]}>
+                    <Text style={styles.modalHeader}>Apakah anda yakin akan keluar ?</Text>
+                    <View style={styles.modalButton}>
+                      <TouchableHighlight style={styles.option} onPress={this.doLogout} underlayColor={'#f1f1f1'}>
+                        <Text style={{color: '#048573'}}>Keluar</Text>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight style={styles.option} onPress={() => {this.setModalVisible(!this.state.modalVisible);}} underlayColor={'#f1f1f1'}>
+                        <Text style={{color: '#048573'}}>Close</Text>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+
                 <Text style={styles.button}>Keluar</Text>  
                 <Icon name="sign-out" type="font-awesome" color={'#ffffff'} containerStyle={styles.myIcon} size={30}/>
               </TouchableOpacity>
@@ -140,5 +167,31 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 15,
     paddingHorizontal: 20
+  },
+
+  modal: {
+    height: 100,
+    paddingTop: 10,
+    alignSelf: "center",
+    alignItems: "center",
+    textAlign: "center",
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+  modalHeader: {
+    margin: 5,
+    fontWeight: 'bold'
+  },
+  modalButton: {
+    width: '100%',
+    flexDirection: 'row',
+  },
+  option: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingVertical: 10,
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    borderRadius: 10,
   }
 });
