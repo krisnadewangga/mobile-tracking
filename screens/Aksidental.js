@@ -34,15 +34,19 @@ class Masuk extends Component {
     doSimpan = async () => {
       try {
         let token = await AsyncStorage.getItem('token');
-        const uri = this.props.image
+        const uri = this.props.image || ""
         const uriParts = uri.split('.');
         const fileType = uriParts[uriParts.length - 1];
         const formData = new FormData();
-          formData.append('photo', {
-            uri,
-            name: `photo.${fileType}`,
-            type: `image/${fileType}`,
-          });
+          if(uri !== ""){
+            formData.append('photo', {
+              uri,
+              name: `photo.${fileType}`,
+              type: `image/${fileType}`,
+            });
+          } else {
+            formData.append('photo', "")
+          }
           formData.append('kode_kambing', this.props.data.data)
           formData.append('keterangan', this.state.kondisi)
           formData.append('deskripsi', this.state.deskripsi)

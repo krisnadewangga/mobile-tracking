@@ -20,6 +20,7 @@ class Scan extends Component {
     }
     componentDidMount(){
       console.log(this.props)
+      Actions.refresh()
     }
 
     // onScanned = (e) => {
@@ -31,11 +32,11 @@ class Scan extends Component {
     onScanned = (e) => {
       console.log(e)
       if(this.props.where === 'Masuk'){
-        Actions.Masuk({data: e})
+        Actions.Masuk({data: e}, () => this.scanner.reactivate())
       } else if (this.props.where === 'Keluar'){
-        Actions.Keluar({data: e})
+        Actions.Keluar({data: e}, () => this.scanner.reactivate())
       } else if (this.props.where === 'Aksidental'){
-        Actions.Aksidental({data: e})
+        Actions.Aksidental({data: e}, () => this.scanner.reactivate())
       }
     }
 
