@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Scene, Drawer, Modal } from 'react-native-router-flux'
+import { Router, Scene, Drawer, Modal, Actions } from 'react-native-router-flux'
 import { StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -21,7 +21,7 @@ const Routes = () => (
          <Drawer key="MenuDrawer" contentComponent={MenuDrawer} hideNavBar={true} type="replace" drawerImage={require('../logo/drawer.png')} leftButtonIconStyle={{top: -20, width: 30, height: 30}} >
             <Scene key="Menu" component={Menu} navTransparent={true} />
          </Drawer>
-         <Scene key="Scan" component={Scan} hideNavBar={true}/>
+         <Scene key="Scan" component={Scan} hideNavBar={true}  />
          <Scene key="Masuk" component={Masuk} navTransparent={true} />
          <Scene key="Keluar" component={Keluar} navTransparent={true} />
          <Scene key="Aksidental" component={Aksidental} navTransparent={true}  />
