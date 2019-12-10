@@ -27,6 +27,10 @@ class Masuk extends Component {
         }
     }
 
+    componentWillUnmount(){
+      this.props.scanner.reactivate()
+    }
+
     goToKamera = () => {
       Actions.Kamera()
     }
@@ -58,22 +62,22 @@ class Masuk extends Component {
             data: formData
           })
           .then(res => {
-            console.log(res, this.props, "GET")
-            console.log(formData)
+            // console.log(res, this.props, "GET")
+            // console.log(formData)
             if(res.data.status === 'success'){
-              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () => Actions.popTo('Scan')}])
+              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () =>  {Actions.popTo('_Menu'); Actions.Scan({where: 'Aksidental'})}}])
             } 
             else if (res.data.status === 'failed') {
-              Alert.alert("Alert !", res.data.message)
+              Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () =>  {Actions.popTo('_Menu'); Actions.Scan({where: 'Aksidental'})}}])
             }
           })
           .catch(res => {
-            console.log(res, res.response, formData, "CATCH")
+            // console.log(res, res.response, formData, "CATCH")
             Alert.alert("Alert !", "Invalid data")
           })
       } 
       catch (error) {
-        console.log("Error", error)
+        // console.log("Error", error)
         Alert.alert("Alert !", "Invalid data")
       }
     }

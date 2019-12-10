@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Alert, Image, BackHandler } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
@@ -15,24 +15,31 @@ class SignIn extends Component {
     };
   }
 
-  componentDidMount() {
-    // axios.post('http://10.10.18.18:9090/api/app/user').then(res => {
-    //   this.setState({users: res.data})
-    //   console.log(res)
-    // })
+  componentWillMount() {
+    this.homeBackPressHandler = BackHandler.addEventListener('homeBackPress', () => {
+      if (Actions.currentScene === 'SignIn') {
+        BackHandler.exitApp();
+        return true
+      }
+      return false
+    })
   }
 
+  componentWillUnmount() {
+    this.homeBackPressHandler.remove()
+  }
+  
   goToMenu = () => {
     axios.post('http://101.255.125.227:83/api/auth/login', 
       {username: this.state.username, 
       password: this.state.password})
     .then(res => {
-      console.log(res, "GET")
+      // console.log(res, "GET")
       this.doSync(res)
-      Actions.MenuDrawer()
+      Actions.Menu()
     })
     .catch(res => {
-      console.log(res, "CATCH")
+      // console.log(res, "CATCH")
       Alert.alert("Alert !", "Invalid username or password")
     })
   }

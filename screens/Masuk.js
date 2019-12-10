@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, TouchableHighlight, Alert } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, TouchableHighlight, Alert, InteractionManager } from 'react-native';
 import { Input, Button, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import RadioForm from 'react-native-simple-radio-button';
@@ -12,7 +12,7 @@ class Masuk extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          berat: '52 kg',
+          berat: '0',
           cukur: false,
           suntik: false,
           obat: false,
@@ -22,12 +22,12 @@ class Masuk extends Component {
         }
     }
 
-    goToKamera = () => {
-      Actions.Kamera()
+    componentWillUnmount(){
+      this.props.scanner.reactivate()
     }
 
-    componentDidMount(){
-      console.log(this.props)
+    goToKamera = () => {
+      Actions.Kamera()
     }
 
     doSimpan = async () => {
@@ -59,22 +59,22 @@ class Masuk extends Component {
             data: formData
           })
           .then(res => {
-            console.log(res, this.props, "GET")
-            console.log(formData)
+            // console.log(res, this.props, "GET")
+            // console.log(formData)
             if(res.data.status === 'success'){
-              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () => Actions.popTo('Scan')}])
+              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () => {Actions.popTo('_Menu'); Actions.Scan({where: 'Masuk'})}}])
             } 
             else if (res.data.status === 'failed') {
-              Alert.alert("Alert !", res.data.message)
+              Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => {Actions.popTo('_Menu'); Actions.Scan({where: 'Masuk'})}}])
             }
           })
           .catch(res => {
-            console.log(res, res.response, formData, "CATCH")
+            // console.log(res, res.response, formData, "CATCH")
             Alert.alert("Alert !", "Invalid data")
           })
       } 
       catch (error) {
-        console.log("Error", error)
+        // console.log("Error", error)
         Alert.alert("Alert !", "Invalid data")
       }
     }
@@ -97,13 +97,13 @@ class Masuk extends Component {
                         <TouchableOpacity
                           activeOpacity={1}
                           style={!this.state.cukur ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({cukur: false, statusCukur: 'No'}, console.log(this.state.statusCukur))}>
+                          onPress={() => this.setState({cukur: false, statusCukur: 'No'})}>
                         <Text style={this.state.cukur ? styles.welcomePress : styles.welcome}>Tidak</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           activeOpacity={1}
                           style={this.state.cukur ? styles.buttonPress : styles.button}
-                          onPress={() => this.setState({cukur: true, statusCukur: 'Yes'}, console.log(this.state.statusCukur))}>
+                          onPress={() => this.setState({cukur: true, statusCukur: 'Yes'})}>
                           <Text style={!this.state.cukur ? styles.yesPress : styles.yes}>Ya</Text>
                         </TouchableOpacity>
                         </View>
@@ -146,8 +146,8 @@ class Masuk extends Component {
                       </View>
 
                       <View style={styles.contentWrap}>
-                        <Text style={styles.bodyText} >Berat</Text>
-                        <Text style={styles.bodyText} >{this.state.berat}</Text>
+                        <Text style={styles.bodyText} >Berat (kg)</Text>
+                        <Input containerStyle={styles.inputContainer} inputStyle={styles.inputText} inputContainerStyle={styles.bodyInputContainer} placeholder="0 kg" onChangeText={berat => this.setState({ berat })} />
                       </View>
                     </View>
                      
@@ -223,7 +223,18 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "#000000",
     paddingTop: 12,
-    // fontWeight: "600",
+  },
+  inputText: {
+    fontSize: 17,
+    color: "#000000",
+    paddingTop: 12,
+    textAlign: "right",
+  },
+  inputContainer: {
+    width: '80%',
+  },
+  bodyInputContainer: {
+    borderBottomWidth: 0,
   },
   contentWrap: {
     marginVertical: 6,

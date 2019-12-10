@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, TouchableHi
 import { Input, Button, Icon} from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
+import SignIn from './SignIn';
 
 class MenuDrawer extends Component {
 
@@ -29,7 +30,7 @@ class MenuDrawer extends Component {
     Actions.Scan({where: 'Aksidental'})
   }
   doLogout = () => {
-    Actions.SignIn()
+    Actions.reset('SignIn')
     AsyncStorage.removeItem('token')
   }
 

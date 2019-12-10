@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity  } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity, BackHandler  } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';

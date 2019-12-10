@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router, Scene, Drawer, Modal, Actions } from 'react-native-router-flux'
-import { StyleSheet } from 'react-native';
+import { StyleSheet, BackHandler } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import SignIn from '../screens/SignIn.js'
@@ -13,12 +13,21 @@ import Kamera from '../screens/Kamera.js'
 import MenuDrawer from '../screens/MenuDrawer.js'
 import Splashscreen from '../screens/Splashscreen.js';
 
+
+const onBackPress = () => {
+   if (Actions.state.index === 1) {
+     return false
+   }
+   Actions.pop()
+   return true
+ }
+
 const Routes = () => (
-   <Router>
+   <Router backAndroidHandler={onBackPress}>
       <Scene key = "root">
-         <Scene key="Splashscreen" component={Splashscreen} hideNavBar={true} initial/>
-         <Scene key="SignIn" component={SignIn} hideNavBar={true} type="replace" />
-         <Drawer key="MenuDrawer" contentComponent={MenuDrawer} hideNavBar={true} type="replace" drawerImage={require('../logo/drawer.png')} leftButtonIconStyle={{top: -20, width: 30, height: 30}} >
+         <Scene key="Splashscreen" component={Splashscreen} hideNavBar={true} initial />
+         <Scene key="SignIn" component={SignIn} hideNavBar={true} />
+         <Drawer key="MenuDrawer" contentComponent={MenuDrawer} hideNavBar={true} drawerImage={require('../logo/drawer.png')} leftButtonIconStyle={{top: -20, width: 30, height: 30}} >
             <Scene key="Menu" component={Menu} navTransparent={true} />
          </Drawer>
          <Scene key="Scan" component={Scan} hideNavBar={true}  />

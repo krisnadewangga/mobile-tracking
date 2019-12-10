@@ -10,6 +10,14 @@ class Kamera extends Component {
         isCameraVisiable: false
       }
     }
+
+    // componentWillUnmount(){
+      
+    // }
+
+    // componentDidMount(){
+    //   console.log(this.camera, "INICAMERA")
+    // }
   
     showCameraView = () => {
       this.setState({ isCameraVisible: true });
@@ -36,8 +44,8 @@ class Kamera extends Component {
       if (this.camera) {
         const options = { quality: 0.1, base64: true };
         const data = await this.camera.takePictureAsync(options);
-        console.log(data.uri);
-        Actions.pop({ refresh: { image: data.uri, imageDetail: data } })
+        // console.log(data.uri);
+        Actions.pop({ refresh: { image: data.uri, imageDetail: data, camera: this.camera } })
       }
     };
   }

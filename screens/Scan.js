@@ -18,11 +18,17 @@ class Scan extends Component {
 
         }
     }
+    // componentWillMount(){
+    //   this.scanner.reactivate()
+    // }
+
     componentDidMount(){
-      console.log(this.props)
-      Actions.refresh()
+      this.scanner.reactivate()
     }
 
+    componentWillUnmount(){
+      this.scanner.reactivate()
+    }
     // onScanned = (e) => {
     //   console.log(e)
     //     Linking
@@ -30,13 +36,13 @@ class Scan extends Component {
     //         .catch(err => console.error('An error occured', err));
     //     }
     onScanned = (e) => {
-      console.log(e)
+      // console.log(e)
       if(this.props.where === 'Masuk'){
-        Actions.Masuk({data: e}, () => this.scanner.reactivate())
+        Actions.Masuk({data: e, scanner: this.scanner})
       } else if (this.props.where === 'Keluar'){
-        Actions.Keluar({data: e}, () => this.scanner.reactivate())
+        Actions.Keluar({data: e, scanner: this.scanner})
       } else if (this.props.where === 'Aksidental'){
-        Actions.Aksidental({data: e}, () => this.scanner.reactivate())
+        Actions.Aksidental({data: e, scanner: this.scanner})
       }
     }
 

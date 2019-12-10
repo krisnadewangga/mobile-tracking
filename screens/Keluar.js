@@ -12,8 +12,12 @@ class Masuk extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          berat: '52 kg'
+          berat: '0'
         }
+    }
+
+    componentWillUnmount(){
+      this.props.scanner.reactivate()
     }
 
     goToKamera = () => {
@@ -46,22 +50,22 @@ class Masuk extends Component {
             data: formData
           })
           .then(res => {
-            console.log(res, this.props, "GET")
-            console.log(formData)
+            // console.log(res, this.props, "GET")
+            // console.log(formData)
             if(res.data.status === 'success'){
-              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () => Actions.popTo('Scan')}])
+              Alert.alert("Success", res.data.message, [{text: 'OK', onPress: () => {Actions.popTo('_Menu'); Actions.Scan({where: 'Keluar'})}}])
             } 
             else if (res.data.status === 'failed') {
-              Alert.alert("Alert !", res.data.message)
+              Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => {Actions.popTo('_Menu'); Actions.Scan({where: 'Keluar'})}}])
             }
           })
           .catch(res => {
-            console.log(res, res.response, formData, "CATCH")
+            // console.log(res, res.response, formData, "CATCH")
             Alert.alert("Alert !", "Invalid dataA")
           })
       } 
       catch (error) {
-        console.log("Error", error)
+        // console.log("Error", error)
         Alert.alert("Alert !", "Invalid dataB")
       }
     }
@@ -80,8 +84,8 @@ class Masuk extends Component {
                     <View style={styles.bodyContent}>
                       <Text style={styles.bodyText} >Berapa berat hewan ternak yang akan keluar ini?</Text>
                       <View style={styles.radioWrap}>
-                        <Text style={styles.bodyText} >Berat</Text>
-                        <Text style={styles.bodyText} >{this.state.berat}</Text>
+                        <Text style={styles.bodyText} >Berat (kg)</Text>
+                        <Input containerStyle={styles.inputContainer} inputStyle={styles.inputText} inputContainerStyle={styles.bodyInputContainer} placeholder="0 kg" onChangeText={berat => this.setState({ berat })} />
                       </View>
                     </View>
                      
@@ -155,6 +159,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#000000",
     paddingVertical: 12,
+  },
+  inputText: {
+    fontSize: 17,
+    color: "#000000",
+    paddingTop: 12,
+    textAlign: "right",
+  },
+  inputContainer: {
+    width: '80%',
+  },
+  bodyInputContainer: {
+    borderBottomWidth: 0,
   },
   radioWrap: {
     flexDirection: 'row',
