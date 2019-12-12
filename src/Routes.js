@@ -1,7 +1,6 @@
 import React from 'react'
-import { Router, Scene, Drawer, Modal, Actions } from 'react-native-router-flux'
-import { StyleSheet, BackHandler } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Router, Scene, Drawer, Actions } from 'react-native-router-flux'
+import { StyleSheet } from 'react-native';
 
 import SignIn from '../screens/SignIn.js'
 import Menu from '../screens/Menu.js'
@@ -12,7 +11,6 @@ import Aksidental from '../screens/Aksidental.js'
 import Kamera from '../screens/Kamera.js'
 import MenuDrawer from '../screens/MenuDrawer.js'
 import Splashscreen from '../screens/Splashscreen.js';
-
 
 const onBackPress = () => {
    if (Actions.state.index === 1) {
@@ -33,7 +31,7 @@ const Routes = () => (
          <Scene key="Scan" component={Scan} hideNavBar={true}  />
          <Scene key="Masuk" component={Masuk} navTransparent={true} />
          <Scene key="Keluar" component={Keluar} navTransparent={true} />
-         <Scene key="Aksidental" component={Aksidental} navTransparent={true}  />
+         <Scene key="Aksidental" component={Aksidental} navTransparent={true} />
          <Scene key="Kamera" component={Kamera} hideNavBar={true}/>
       </Scene>
    </Router>

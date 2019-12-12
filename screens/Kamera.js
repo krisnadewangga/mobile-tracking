@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { Actions } from 'react-native-router-flux';
 
@@ -42,10 +42,10 @@ class Kamera extends Component {
   
     takePicture = async() => {
       if (this.camera) {
-        const options = { quality: 0.1, base64: true };
+        const options = { quality: 0.1, base64: true, forceUpOrientation: true, fixOrientation: true };
         const data = await this.camera.takePictureAsync(options);
         // console.log(data.uri);
-        Actions.pop({ refresh: { image: data.uri, imageDetail: data, camera: this.camera } })
+        Actions.pop({ refresh: { image: data.uri } })
       }
     };
   }

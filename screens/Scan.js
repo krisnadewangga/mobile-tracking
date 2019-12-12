@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import QRCodeScanner from "react-native-qrcode-scanner";
-import { Text, View, Dimensions, Linking, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Dimensions, Alert } from "react-native";
 import { Actions } from 'react-native-router-flux';
 import Icon from "react-native-vector-icons/Ionicons";
 import * as Animatable from "react-native-animatable";
-// import FilesystemStorage from 'redux-persist-filesystem-storage'
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios'
+
+import API from '../src/API'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -35,14 +38,123 @@ class Scan extends Component {
     //         .openURL(e)
     //         .catch(err => console.error('An error occured', err));
     //     }
-    onScanned = (e) => {
-      // console.log(e)
+    onScanned = async (e) => {
+      let token = await AsyncStorage.getItem('token');
       if(this.props.where === 'Masuk'){
-        Actions.Masuk({data: e, scanner: this.scanner})
+        axios({ 
+          method: 'GET', 
+          url: API + '/CekScanMasuk', 
+          headers: {Authorization: "Bearer " + token}, 
+          params: {
+            kode_kambing: e.data
+          }
+        })
+        .then(res => {
+          console.log(res, e)
+          if(res.data.status === 'undefined'){
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          } 
+          else if (res.data.status === 'scanned') {
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+          else if (res.data.status === 'unscan') {
+            axios({ 
+              method: 'GET', 
+              url: API + '/GetKambing', 
+              headers: {Authorization: "Bearer " + token}, 
+              params: {
+                kode_kambing: e.data
+              }
+            })
+            .then(res => {
+              Actions.Masuk({data: e, dataKambing: res.data[0], scanner: this.scanner})
+            })
+          }
+          else{
+            Alert.alert("Alert !", "Hubungi Admin", [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+        })
+        .catch(res => {
+          Alert.alert("Alert !", "Invalid data")
+        })
       } else if (this.props.where === 'Keluar'){
-        Actions.Keluar({data: e, scanner: this.scanner})
+        axios({ 
+          method: 'GET', 
+          url: API + '/CekScanKeluar', 
+          headers: {Authorization: "Bearer " + token}, 
+          params: {
+            kode_kambing: e.data
+          }
+        })
+        .then(res => {
+          if(res.data.status === 'undefined'){
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          } 
+          else if (res.data.status === 'belum_masuk') {
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+          else if (res.data.status === 'scanned') {
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+          else if (res.data.status === 'unscan') {
+            axios({ 
+              method: 'GET', 
+              url: API + '/GetKambing', 
+              headers: {Authorization: "Bearer " + token}, 
+              params: {
+                kode_kambing: e.data
+              }
+            })
+            .then(res => {
+              Actions.Keluar({data: e, dataKambing: res.data[0], scanner: this.scanner})
+            })
+          }
+          else{
+            Alert.alert("Alert !", "Hubungi Admin", [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+        })
+        .catch(res => {
+          Alert.alert("Alert !", "Invalid data")
+        })
       } else if (this.props.where === 'Aksidental'){
-        Actions.Aksidental({data: e, scanner: this.scanner})
+        axios({ 
+          method: 'GET', 
+          url: API + '/CekScanAksidental', 
+          headers: {Authorization: "Bearer " + token}, 
+          params: {
+            kode_kambing: e.data
+          }
+        })
+        .then(res => {
+          if(res.data.status === 'undefined'){
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          } 
+          else if (res.data.status === 'belum_masuk') {
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+          else if (res.data.status === 'scanned') {
+            Alert.alert("Alert !", res.data.message, [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+          else if (res.data.status === 'unscan') {
+            axios({ 
+              method: 'GET', 
+              url: API + '/GetKambing', 
+              headers: {Authorization: "Bearer " + token}, 
+              params: {
+                kode_kambing: e.data
+              }
+            })
+            .then(res => {
+              Actions.Aksidental({data: e, dataKambing: res.data[0], scanner: this.scanner})
+            })
+          }
+          else{
+            Alert.alert("Alert !", "Hubungi Admin", [{text: 'OK', onPress: () => this.scanner.reactivate()}])
+          }
+        })
+        .catch(res => {
+          Alert.alert("Alert !", "Invalid data")
+        })
       }
     }
 

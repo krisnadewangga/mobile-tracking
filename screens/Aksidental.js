@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
-import { Input, Button, Icon } from 'react-native-elements';
+import { View, StyleSheet, Text, Image, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Input, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import RadioForm from 'react-native-simple-radio-button';
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCamera, faCircle } from '@fortawesome/free-solid-svg-icons'
+
+import API from '../src/API'
 
 class Masuk extends Component {
     constructor(props) {
@@ -23,7 +24,8 @@ class Masuk extends Component {
           sakit: true,
           mati: false,
           hilang: false,
-          lain: false
+          lain: false,
+          showLoader:false
         }
     }
 
@@ -31,11 +33,16 @@ class Masuk extends Component {
       this.props.scanner.reactivate()
     }
 
+    showLoader = () => { 
+      this.setState({ showLoader:true }); 
+    }
+
     goToKamera = () => {
       Actions.Kamera()
     }
 
     doSimpan = async () => {
+      this.showLoader();
       try {
         let token = await AsyncStorage.getItem('token');
         const uri = this.props.image || ""
@@ -57,7 +64,7 @@ class Masuk extends Component {
           // formData.append('user_id', 1)
           axios({ 
             method: 'POST', 
-            url: 'http://101.255.125.227:83/api/AddAksidental', 
+            url: API + '/AddAksidental', 
             headers: {Authorization: "Bearer " + token}, 
             data: formData
           })
@@ -142,6 +149,12 @@ class Masuk extends Component {
                       </TouchableOpacity>
                   </View>
               </View>
+                {
+                  this.state.showLoader && 
+                  <View style={{ position: 'absolute', top:"50%",right: 0, left: 0 }}>
+                      <ActivityIndicator size="large" color="#048573" />
+                  </View>
+                }
             </View>
         )
     }

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, TouchableHighlight, Modal, Dimensions } from 'react-native';
-import { Input, Button, Icon} from 'react-native-elements';
+import { View, StyleSheet, Text, TouchableOpacity, TouchableHighlight, Modal, Dimensions } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
-import SignIn from './SignIn';
 
 class MenuDrawer extends Component {
 

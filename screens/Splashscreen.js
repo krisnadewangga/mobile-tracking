@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
-import { Input, Button} from 'react-native-elements';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import axios from 'axios'
-import AsyncStorage from '@react-native-community/async-storage';
 
 class Splashscreen extends Component {
     constructor(props) {

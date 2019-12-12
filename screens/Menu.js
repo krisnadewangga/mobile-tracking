@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, Alert, TouchableOpacity, BackHandler  } from 'react-native';
-import { Input, Button, Icon } from 'react-native-elements';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import AsyncStorage from '@react-native-community/async-storage';
 
 class Menu extends Component {
 

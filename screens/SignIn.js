@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert, Image, BackHandler } from 'react-native';
-import { Input, Button, Icon } from 'react-native-elements';
+import { Input, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import API from '../src/API'
 
 class SignIn extends Component {
 
@@ -30,7 +32,7 @@ class SignIn extends Component {
   }
   
   goToMenu = () => {
-    axios.post('http://101.255.125.227:83/api/auth/login', 
+    axios.post( API + '/auth/login', 
       {username: this.state.username, 
       password: this.state.password})
     .then(res => {
