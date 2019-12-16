@@ -27,16 +27,21 @@ class Masuk extends Component {
     componentWillUnmount(){
       this.props.scanner.reactivate()
     }
-    componentDidMount(){
-      this.setState({berat: this.props.dataKambing.berat})
-    }
-
+    
     showLoader = () => { 
       this.setState({ showLoader:true }); 
     }
 
     goToKamera = () => {
       Actions.Kamera()
+    }
+
+    checkBeratInput = () => {
+      if(this.state.berat === 0 || this.state.berat === ""){
+        Alert.alert("Alert !", "Berat tidak boleh kosong!", [{text: 'OK'}])
+      }else{
+        this.doSimpan();
+      }
     }
 
     doSimpan = async () => {
@@ -88,6 +93,30 @@ class Masuk extends Component {
         Alert.alert("Alert !", "Invalid data")
       }
     }
+
+    onChangedBerat = (berat) =>{
+    const filteredText = berat.replace(/\D/gm, '');
+
+    if(filteredText !== berat) {
+      // set state text to the current TextInput value, to trigger
+      // TextInput update.
+      this.setState({ berat: berat });
+
+      // buys us some time until the above setState finish execution
+      setTimeout(() => {
+
+        this.setState((previousState) => {
+          return {
+            ...previousState,
+            berat: previousState.berat.replace(/\D/gm, '')
+          };
+        });
+
+      }, 0);
+    } else {
+      this.setState({ berat: filteredText });
+    }
+  }
 
     render() {
         return(
@@ -157,7 +186,7 @@ class Masuk extends Component {
 
                       <View style={styles.contentWrap}>
                         <Text style={styles.bodyText} >Berat (kg)</Text>
-                        <Input containerStyle={styles.inputContainer} inputStyle={styles.inputText} inputContainerStyle={styles.bodyInputContainer} placeholder="0 kg" onChangeText={berat => this.setState({ berat })}>{this.state.berat}</Input>
+                        <Input keyboardType="numeric" containerStyle={styles.inputContainer} inputStyle={styles.inputText} inputContainerStyle={styles.bodyInputContainer} placeholder="0 kg" onChangeText={(berat)=> this.onChangedBerat(berat)} value={this.state.berat} />
                       </View>
                     </View>
                      
@@ -170,7 +199,7 @@ class Masuk extends Component {
                       </TouchableOpacity>
                     </View>
                     <View style={styles.buttonView}>
-                      <TouchableOpacity onPress={this.doSimpan} style={styles.navButton}>
+                      <TouchableOpacity onPress={this.checkBeratInput} style={styles.navButton}>
                         <Text style={styles.buttonSimpan}>Simpan</Text>
                         <Icon name="angle-right" type="font-awesome" color={'#ffffff'} containerStyle={styles.myIcon} size={40}/>
                       </TouchableOpacity>

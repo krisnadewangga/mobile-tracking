@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { Actions } from 'react-native-router-flux';
 
@@ -7,23 +7,19 @@ class Kamera extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        isCameraVisiable: false
+        isCameraVisiable: false,
+        showLoader:false
       }
     }
 
-    // componentWillUnmount(){
-      
-    // }
-
-    // componentDidMount(){
-    //   console.log(this.camera, "INICAMERA")
-    // }
+    showLoader = () => { 
+      this.setState({ showLoader:true }); 
+    }
   
     showCameraView = () => {
       this.setState({ isCameraVisible: true });
     }
     render() {
-      // const { isCameraVisible } = this.state;
       return (
         <View style={styles.container}>
           <RNCamera
@@ -32,19 +28,24 @@ class Kamera extends Component {
             }}
             style={styles.preview}
             captureAudio={false}
-            // aspect={RNCamera.constants.Aspect.fill}
             >
             <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
           </RNCamera>
+          {
+            this.state.showLoader && 
+            <View style={{ position: 'absolute', top:"50%",right: 0, left: 0 }}>
+                <ActivityIndicator size="large" color="#048573" />
+            </View>
+          }
         </View>
       );
     }
   
     takePicture = async() => {
+      this.showLoader();
       if (this.camera) {
         const options = { quality: 0.1, base64: true, forceUpOrientation: true, fixOrientation: true };
         const data = await this.camera.takePictureAsync(options);
-        // console.log(data.uri);
         Actions.pop({ refresh: { image: data.uri } })
       }
     };

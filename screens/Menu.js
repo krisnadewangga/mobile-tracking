@@ -39,15 +39,15 @@ class Menu extends Component {
                 <Icon name="arrow-circle-down" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
                 <Text style={styles.titleButton}>Scan Hewan Masuk</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.iconButton} onPress={this.goToKeluar}>
-                <Icon name="arrow-circle-up" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
-                <Text style={styles.titleButton}>Scan Hewan Keluar</Text>
-              </TouchableOpacity>
               <TouchableOpacity style={styles.iconButton} onPress={this.goToAksidental}>
                 <Icon name="exclamation-circle" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
                 <Text style={styles.titleButton}>Scan Aksidental</Text>
               </TouchableOpacity>
-
+              <TouchableOpacity style={styles.iconButton} onPress={this.goToKeluar}>
+                <Icon name="arrow-circle-up" type="font-awesome" color={'#048573'} containerStyle={styles.myIcon} size={62}/>
+                <Text style={styles.titleButton}>Scan Hewan Keluar</Text>
+              </TouchableOpacity>
+              
             </View>
           </View>
         </View>
